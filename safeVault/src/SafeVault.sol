@@ -7,7 +7,7 @@ interface IERC20 {
 }
 
 
-contract saveVault {
+contract SafeVault {
 
     mapping(address => uint256) public ethBalances;
     mapping(address => mapping(address => uint256)) public tokenBalances;  
