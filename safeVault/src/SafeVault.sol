@@ -13,28 +13,27 @@ contract SafeVault {
     mapping(address => uint256) public ethBalances;
     mapping(address => uint256) public tokenBalances;
 
-
     event ETHDeposited(address indexed user, uint256 amount);
     event ETHWithdrawn(address indexed user, uint256 amount);
     event TokenDeposited(address indexed user, address indexed token, uint256 amount);
-    event TokenWithdrawn(address indexed user, address indexed token, uint256 amount);  
+    event TokenWithdrawn(address indexed user, address indexed token, uint256 amount);
 
-    function depositETH()external payable {
+    function depositEth() external payable {
         require(msg.value > 0, "Deposit must be greater than 0");
         ethBalances[msg.sender] += msg.value;
         emit ETHDeposited(msg.sender, msg.value);
     }
 
-    function withdrawETH(uint256 amount) external {
+    function withdrawEth(uint256 amount) external {
         require(amount > 0, "Amount must be > 0");
         require(ethBalances[msg.sender] >= amount, "Insufficient balance");
         ethBalances[msg.sender] -= amount;
-        (bool sent, ) = msg.sender.call{value: amount}("");
+        (bool sent,) = msg.sender.call{value: amount}("");
         require(sent, "ETH transfer failed");
         emit ETHWithdrawn(msg.sender, amount);
     }
 
-   function depositToken(uint256 amount) external {
+    function depositToken(uint256 amount) external {
         require(amount > 0, "Amount must be > 0");
         require(token.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
         bool success = token.transferFrom(msg.sender, address(this), amount);
@@ -46,10 +45,10 @@ contract SafeVault {
     function withdrawToken(uint256 amount) external {
         require(amount > 0, "Amount must be > 0");
         require(tokenBalances[msg.sender] >= amount, "Insufficient balance");
-        tokenBalances[msg.sender]-= amount;
+        tokenBalances[msg.sender] -= amount;
         bool success = token.transfer(msg.sender, amount);
         require(success, "Token transfer failed");
-      
+
         emit TokenWithdrawn(msg.sender, address(token), amount);
     }
 
@@ -59,6 +58,5 @@ contract SafeVault {
 
     function getTokenBalance() external view returns (uint256) {
         return tokenBalances[msg.sender];
-    }   
-
+    }
 }
