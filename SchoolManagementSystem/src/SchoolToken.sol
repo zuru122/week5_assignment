@@ -11,10 +11,10 @@ contract SchoolToken {
     constructor(string memory _tokenName, string memory _tokenSymbol, uint256 _initialSupply){
         owner = msg.sender;
         tokenName = _tokenName;
-        tokenTotalSupply = _initialSupply;
+        tokenTotalSupply = _initialSupply * 10 **18;
         tokenSymbol = _tokenSymbol;
 
-         balances[msg.sender] = _initialSupply;
+         balances[msg.sender] = _initialSupply * 10 **18;
          emit Transfer(address(0), msg.sender, _initialSupply);
     }
 

@@ -5,6 +5,8 @@ Deployed on Lisk testnet
 
 deployement script `forge script script/{projectName.s.sol} --rpc-url {https://rpc.sepolia-api.lisk.com/} --private-key {PRIVATE_KEY} --broadcast`
 
+`verify contarct: forge verify-contract {deployed contract address} src/{contractName}.sol:Contract --chain-id $CHAIN_ID --verifier $VERIFIER --verifier-url $VERIFIER_URL `
+
 TODO: 0xCd7C5AD873857E1a4BEAe5D38Ec47728378A8D87;
 
 SaveEther: 0x483F2520C4d53a657989D3283c9a9B5feA97BB00
