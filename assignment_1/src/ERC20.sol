@@ -44,7 +44,7 @@ contract ERC20 {
     }
 
     function balanceOf(address _owner) public view returns(uint256){
-        require((_owner != address(0), "address zero detected"));
+        require(_owner != address(0), "address zero detected");
         return balances[_owner];
     }
 
