@@ -8,27 +8,21 @@ const main = async () => {
   const USDCHolder = "0x28C6c06298d514Db089934071355E5743bf21d60";
 
   await helpers.impersonateAccount(USDCHolder);
-  const impersonatedSigner = await ethers.getSigner(USDCHolder);
+  const signer = await ethers.getSigner(USDCHolder);
 
-  const amountOutMin = ethers.parseUnits("199", 6);
-  const deadline = Math.floor(Date.now() / 1000) + 300;
+  const USDC = await ethers.getContractAt("IERC20", USDCAddress, signer);
 
-  const USDC = await ethers.getContractAt(
-    "IERC20",
-    USDCAddress,
-    impersonatedSigner,
-  );
-
-  const V2_ROUTER = await ethers.getContractAt(
+  const ROUTER = await ethers.getContractAt(
     "IUniswapV2Router",
     UNIRouter,
-    impersonatedSigner,
+    signer,
   );
 
-  const ethBalBefore = await ethers.provider.getBalance(
-    impersonatedSigner.address,
-  );
-  const usdcBalBefore = await USDC.balanceOf(impersonatedSigner.address);
+  const ethBalBefore = await ethers.provider.getBalance(signer.address);
+  const usdcBalBefore = await USDC.balanceOf(signer.address);
+
+  const amountOutMin = ethers.parseUnits("100", 6);
+  const deadline = Math.floor(Date.now() / 1000) + 300;
 
   console.log("=================Before======================================");
 
@@ -41,10 +35,10 @@ const main = async () => {
     ethers.formatUnits(usdcBalBefore, 6),
   );
 
-  const txn = await V2_ROUTER.swapExactETHForTokens(
+  const txn = await ROUTER.swapExactETHForTokens(
     amountOutMin,
     [WETHAddress, USDCAddress],
-    impersonatedSigner.address,
+    signer.address,
     deadline,
     {
       value: ethers.parseEther("0.1"),
@@ -53,10 +47,8 @@ const main = async () => {
 
   await txn.wait();
 
-  const ethBalAfter = await ethers.provider.getBalance(
-    impersonatedSigner.address,
-  );
-  const usdcBalAfter = await USDC.balanceOf(impersonatedSigner.address);
+  const ethBalAfter = await ethers.provider.getBalance(signer.address);
+  const usdcBalAfter = await USDC.balanceOf(signer.address);
 
   console.log("=================After========================================");
 
