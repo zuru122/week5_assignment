@@ -19,11 +19,9 @@ contract DeploySafeVault is Script {
         token = new ERC20("ZuruOnyx", "ZO", 1000000 ether);
         safeVault = new SafeVault(address(token));
 
-
         console.log("Token deployed at:", address(token));
         console.log("Vault deployed at:", address(safeVault));
 
         vm.stopBroadcast();
     }
-
 }

@@ -11,6 +11,9 @@ const main = async () => {
   const signer = await ethers.getSigner(USDCHolder);
 
   const USDC = await ethers.getContractAt("IERC20", USDCAddress, signer);
+  const WETH = await ethers.getContractAt("IERC20", WETHAddress, signer);
+
+  const wethBal = await WETH.balanceOf(signer.address);
 
   const ROUTER = await ethers.getContractAt(
     "IUniswapV2Router",
@@ -34,7 +37,7 @@ const main = async () => {
   );
   console.log(
     "USDC Balance before adding liquidity:",
-    ethers.formatUnits(usdcBalBefore, 18),
+    ethers.formatUnits(usdcBalBefore, 6),
   );
   console.log(
     "ETH Balance before adding liquidity:",
@@ -58,7 +61,7 @@ const main = async () => {
   console.log("=================After========================================");
   console.log(
     "USDC Balance after adding liquidity:",
-    ethers.formatUnits(usdcBalAfter, 18),
+    ethers.formatUnits(usdcBalAfter, 6),
   );
   console.log(
     "ETH Balance after adding liquidity:",
@@ -69,7 +72,7 @@ const main = async () => {
 
   const usdcUsed = usdcBalBefore - usdcBalAfter;
   const ethUsed = ethBalBefore - ethBalAfter;
-  console.log("USDC USED:", ethers.formatUnits(usdcUsed, 18));
+  console.log("USDC USED:", ethers.formatUnits(usdcUsed, 6));
   console.log("ETH USED:", ethers.formatEther(ethUsed));
 };
 

@@ -17,12 +17,14 @@ describe("MultiSign Wallet", function () {
     const MultiSignWallet = await hre.ethers.getContractFactory(
       "MultiSignWallet",
     );
+
     const multiSignWallet = await MultiSignWallet.deploy(
       owner1,
       owner2,
       owner3,
     );
     await multiSignWallet.waitForDeployment();
+
     const multiSignWalletAddress = await multiSignWallet.getAddress();
 
     return {

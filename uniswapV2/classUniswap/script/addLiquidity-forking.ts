@@ -16,6 +16,7 @@ const main = async () => {
   const amountDAIMin = ethers.parseUnits("9000", 18);
   const deadline = Math.floor(Date.now() / 1000) + 60 * 10;
 
+  // Get contract instances
   const USDC = await ethers.getContractAt(
     "IERC20",
     USDCAddress,
@@ -31,9 +32,6 @@ const main = async () => {
     UNIRouter,
     impersonatedSigner,
   );
-
-  await USDC.approve(UNIRouter, amountUSDC);
-  await DAI.approve(UNIRouter, amountDAI);
 
   const usdcBalBefore = await USDC.balanceOf(impersonatedSigner.address);
   const daiBalBefore = await DAI.balanceOf(impersonatedSigner.address);

@@ -4,9 +4,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-require("dotenv").config();
-
-const { MAINNET_RPC_URL, PRIVATE_KEY } = process.env;
+const { MAINNET_RPC_URL } = process.env;
 
 const config: HardhatUserConfig = {
   solidity: "0.8.28",
@@ -19,4 +17,5 @@ const config: HardhatUserConfig = {
     },
   },
 };
+
 export default config;
